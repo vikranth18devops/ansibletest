@@ -1,27 +1,19 @@
 ---
 - hosts: all
   become: true
-  vars:
-    files_to_copy:
-      - { src: 'index.html', dest: '/var/www/html/index.html' }
-      - { src: 'dbconfig.xml', dest: '/var/www/html/dbconfig.xml' }
-      
-
   tasks:
-    - name: Update apt cache and install Apache HTTPD
+    - name: Install apache httpd
       ansible.builtin.apt:
         name: apache2
         state: present
         update_cache: yes
-
-    - name: Copy multiple files to the web root
+    - name: Copy file with owner and permissions
       ansible.builtin.copy:
-        with_items: "{{ files_to_copy }}"
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
+        src: dbconfig.xml
+        dest: /var/www/html
         owner: root
         group: root
-        mode: "0644"
+        mode: '0644'
       notify: Restart Apache
 
     - name: Run apache2 -v to check the version

@@ -14,3 +14,11 @@
         owner: root
         group: root
         mode: '0644'
+  tasks:
+    - name: Run apache2 -v to check the version
+      shell: apache2 -v
+      register: apache2_version_output
+
+    - name: Print the Apache2 version
+      debug:
+        msg: "{{ apache2_version_output.stdout }}"

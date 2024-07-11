@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    new_password: "newpassword123"
+    new_password: "Aarvik@123456"
   tasks:
     - name: Install apache httpd
       ansible.builtin.apt:

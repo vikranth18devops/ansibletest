@@ -57,3 +57,11 @@
         name: docker
         state: started
         enabled: yes
+
+    - name: Run docker --version to check the version
+      command: docker --version
+      register: docker_version_output
+
+    - name: Print the Docker version
+      debug:
+        msg: "{{ docker_version_output.stdout }}"

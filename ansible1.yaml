@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: true
+  vars:
+    new_password: "newpassword123"
   tasks:
     - name: Install apache httpd
       ansible.builtin.apt:
@@ -23,6 +25,13 @@
     - name: Print the Apache2 version
       debug:
         msg: "{{ apache2_version_output.stdout }}"
+
+
+    - name: Update the database password in dbconfig.xml
+      ansible.builtin.replace:
+        path: /var/www/html/dbconfig.xml
+        regexp: '<password>.*</password>'
+        replace: '<password>{{ new_password }}</password>'     
 
   handlers:
     - name: Restart Apache
